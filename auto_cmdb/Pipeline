@@ -1,0 +1,52 @@
+#pipeline {
+#    agent none 
+#    stages {
+#        stage('git file') {
+#          agent any
+#            steps {
+#                git credentialsId: '71fbae7c-c1cb-4574-aa37-cd92d1f5c7ab', url: 'git@172.18.0.5:root/maventest.git'
+#            }
+#        }
+#        stage('build maven') {
+#            agent { docker {image 'maven:3-alpine'
+#                                         args '-v /root:/root'} } 
+#            steps {
+#                sh 'mvn --version'
+#            }
+#        }
+#        stage('copy file') {
+#            agent any
+#            steps {
+#                sh 'cp -r ${WORKSPACE}/.* /root'
+#            }
+#        }
+#        stage('build maven') {
+#            agent { docker {image 'maven:3-alpine'
+#                                         args '-v /root:/root'} } 
+#            steps {
+#                sh 'maven -B -D skipTests clean package'
+#            }
+#        }
+#    }
+#}
+#
+#
+#
+#pipeline {
+#    agent none
+#    stages {
+#        stage('git file') {
+#            agent any
+#            steps {
+#                git credentialsId: '71fbae7c-c1cb-4574-aa37-cd92d1f5c7ab', url: 'git@172.18.0.5:root/maventest.git'
+#            }
+#        }
+#        stage('build mavens') {
+#            agent { docker {image 'maven:3-alpine'
+#                                         args '-v /root:/root'} } 
+#            steps {
+#                sh 'mvn -B -DskipTests clean package'
+#            }
+#        }
+#    }
+#}

@@ -1,0 +1,141 @@
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Title Page</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <h1 class="text-center">Hello World</h1>
+  <ul>
+    <li class="treeview menu-open" style="height: auto;">
+      <a href="#">
+        <i class="fa fa-share"></i> <span>Multilevel</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul id="treeNode" class="treeview-menu" style="display: block;">
+      </ul>
+      
+    </li>
+  </ul>
+  <script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+</body>
+<script>
+  var nodes = [{
+    id: 1,
+    sub_node: [{
+      id: 2,
+      sub_node: [{
+        id: 5,
+        sub_node: [],
+
+        node_name: "app",
+        node_upstream: 2
+      },
+      {
+        id: 6,
+        sub_node: [],
+
+        node_name: "Mysql",
+        node_upstream: 2
+      },
+      {
+        id: 8,
+        sub_node: [],
+
+        node_name: "LB",
+        node_upstream: 2
+      },
+      {
+        id: 11,
+        sub_node: [],
+
+        node_name: "Cache",
+        node_upstream: 2
+      }
+      ],
+      node_name: "WaiHui",
+      node_upstream: 1
+    },
+    {
+      id: 3,
+      sub_node: [{
+        id: 9,
+        sub_node: [],
+
+        node_name: "Mysql",
+        node_upstream: 3
+      },
+      {
+        id: 10,
+        sub_node: [],
+
+        node_name: "app",
+        node_upstream: 3
+      },
+      {
+        id: 12,
+        sub_node: [],
+
+        node_name: "cache",
+        node_upstream: 3
+      }
+      ],
+      node_name: "QuDao",
+      node_upstream: 1
+    },
+    {
+      id: 4,
+      sub_node: [],
+      node_name: "LuoJiJiZhong",
+      node_upstream: 1
+    }
+    ],
+    node_name: "QF",
+    node_upstream: null
+  }]
+
+
+  var treeEl = ''
+  var ul = `<ul class="treeview-menu" style="display: block;">`
+  let hasNot = ''
+  let li = []
+
+  function displayNode(nodes) {
+    for (node of nodes) {
+      if (node.sub_node.length === 0) {
+        hasNot = node.node_name
+        li.push(`<li><a href="#"><i class="fa fa-circle-o"></i>
+                                ${hasNot}</a>
+                            </li>`)
+      } else {
+        has = node.node_name
+        li.push(`<li class="treeview menu-open" style="height: auto;">
+                            <a href="#"><i class="fa fa-circle-o"></i>
+                                ${has}
+                              <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                            </a>`)
+        li.push(ul)
+
+        displayNode(node.sub_node)
+        li.push('</ul>')
+        li.push('</li>')
+      }
+
+    }
+  }
+  displayNode(nodes)
+  $("#treeNode").html(li.join(""))
+</script>
+
+</html> -->

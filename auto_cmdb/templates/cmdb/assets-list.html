@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+    <div class="row" id="app">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Hover Data Table</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                    aria-describedby="example2_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Rendering engine: activate to sort column descending">
+                                                ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="Browser: activate to sort column ascending">
+                                                资产名</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                                类型</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1"
+                                                aria-label="Engine version: activate to sort column ascending">
+
+                                                状态</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                                                所属机柜</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                                                更新时间</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                                                创建时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in assets %}
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">{{ item.id }}</td>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.device_type_id }}</td>
+                                            <td>{{ item.device_status_id }}</td>
+                                            <td>{{ item.cabinet }}</td>
+                                            <td>{{ item.latest_date }}</td>
+                                            <td>{{ item.create_at }}</td>
+                                            <td><a href="{% url 'cmdb:assets_detail' item.id %}">详情</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">ID</th>
+                                            <th rowspan="1" colspan="1">资产名</th>
+                                            <th rowspan="1" colspan="1">类型</th>
+                                            <th rowspan="1" colspan="1">状态</th>
+                                            <th rowspan="1" colspan="1">所属机柜</th>
+                                            <th rowspan="1" colspan="1">更新时间</th>
+                                            <th rowspan="1" colspan="1">创建时间</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                    Showing
+                                    1 to 10 of 57 entries</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

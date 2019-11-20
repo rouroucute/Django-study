@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuetest</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <h1>替换后的数据：{{ repalcemsg }}</h1>
+        <button @click="abc">算一卦</button>
+         <h1 v-bind:title='titletext'>悬停</h1>
+         姓名:
+         <input v-model='inputName'>
+         <div>{{ inputName }}</div>
+         <div>{{ fullname }}</div>
+          <div v-if="seen==='False'">qf</div>
+          <div v-else> kong</div>
+          <div v-if="logType==='username'" key="user">
+                使用用户名登录<input type="text">
+            </div>
+            <div v-else="logType==='email'" key="pwd">
+                使用邮箱登录<input type="email">
+            </div>
+            <ul>
+                    <li v-for="(key,val) in  numbers" >
+                        索引号是:{{ key }} 值是：{{ value }}
+                    </li>
+                    </ul>
+    </div>
+</body>
+<script>
+    var app = new Vue(
+        {
+            el: '#app',
+            data:{
+                msg:'hello',
+                
+                titletext:'你得到了我',
+                inputName:'',
+                firstName: 'Shark',
+                lastName: 'Yun',
+                seen:"False",
+                logType:"email",
+                numbers: {name:shark,age:2}
+            },
+            // methods:{
+            //     abc(){
+            //         this.msg = "hello china"
+            //     },
+            computed: {
+              repalcemsg: function(){
+                  return this.msg.replace('h','y')
+              },
+                fullname(){
+                    return this.firstName + ' ' + this.lastName
+                }  
+            },
+            }
+        
+    );
+</script>
+</html>

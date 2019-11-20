@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="content">
+    {% for group in inven %}
+    <div class="row">
+        <div class="col-md-3">
+            <a href="compose.html" class="btn btn-info btn-block margin-bottom">Compose</a>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ group.group }}</h3>
+
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        {% for server in group.server.all %}
+                        <li><a href="#"><i class="fa fa-circle-o text-teal"></i> {{ server.manager_ip }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+        </div>
+        {% endfor %}
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">执行Ansible命令</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="box-footer">
+                        <div class="input-group">
+                            <input type="text" name="command" placeholder="ansible all -m shell -a 'ls /tmp'"
+                                class="form-control postmess">
+                            <span class="input-group-btn" id="getMess">
+                                <button type="button" class="btn btn-primary btn-success" >执行！</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">结果</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="box-footer">
+                        <div class="box-body">
+                            <p id="finresule"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%  endblock  %}
+
+{% block script %}
+<script>
+$(function () {
+    var task_id = ' '
+    function getres(task_id) {
+            var tm = setTimeout(function f(task_id) {
+                $("#finresule").empty()
+                $.ajax({
+                    url: `/octopus/get_result/?task_id=${task_id}`,
+                    type: "GET",
+                    datatype: "json",
+                    success: function (res) {
+                        if (res.success) {
+                            $("#finresule").append(
+                                `
+                                <code>${res.result.msg}<\code>`
+                            )
+                            clearTimeout(timer);
+                        } else {
+                            tm = setTimeout(f(task_id), 2000, task_id)
+                        }
+                    }
+                })
+            }, 2000, task_id)
+        }
+    $("#getMess").on("click", function () {
+        let command = $(".postmess").val();
+        if (! command){
+            $("#finresule").text("命令不能为空")
+            return false
+        }
+        $.ajax({
+            url: "{% url 'octopus:runshell' %}",
+            type: "POST",
+            data: {"command": command , 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function (res) {
+                task_id = res.task_id
+                getres(task_id)
+            }
+        })
+    })
+})
+</script>
+{% endblock %}
+

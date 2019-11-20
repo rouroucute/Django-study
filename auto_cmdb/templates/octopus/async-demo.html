@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+内容
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <input type="text">
+        <span>
+            <button id="btn" class="btn btn-success">发送</button>
+        </span>
+    </div>
+</div>
+<div class="row">
+    <div class="row-md-12">
+        <buttn type="button" class="btn btn-danger" id="btns">获取结果</buttn>
+        <div id="result"></div>
+    </div>
+</div>
+{% endblock  %}
+
+
+{% block script %}
+<script>
+    $(function () {
+        var task_id = ' '
+        function getres(task_id) {
+            var tm = setTimeout(function f(task_id) {
+                $.ajax({
+                    url: `/octopus/get_task/?task_id=${task_id}`,
+                    type: "GET",
+                    datatype: "json",
+                    success: function (res) {
+                        if (res.success) {
+                            $("#result").append(
+                                `<code>${res.status}<\code>
+                                <code>${res.result}<\code>`
+                            )
+                            clearTimeout(timer);
+                        } else {
+                            tm = setTimeout(f(task_id), 2000, task_id)
+                        }
+                    }
+                })
+            }, 2000, task_id)
+        }
+
+        $("#btn").on("click", function () {
+            let m = $(this).parent().siblings().first().val()
+            $("#result").empty()
+            $.ajax({
+                url: '/octopus/async/',
+                type: "POST",
+                data: {
+                    "num": m,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                datatype: "json",
+                success: function (res) {
+                    task_id = res.task_id
+                    getres(task_id)
+                    // alert(task_id)
+                }
+            })
+        });
+        // $("#btns").on("click",function(){
+        //     $.ajax({
+        //         url: `/octopus/get_task/?task_id=${task_id}`,
+        //         type: "GET",
+        //         datatype: "json",
+        //         success: function(res){
+        //             $("#result").empty()
+        //             $("#result").append(
+        //                 `<p>${res.id}<\p><p>${res.status}<\p>`
+        //                 )
+        //         }
+        //     })
+        // });
+    })
+</script>
+{% endblock %}

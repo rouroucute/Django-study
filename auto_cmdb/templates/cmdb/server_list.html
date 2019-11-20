@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block h1 %}{{ block.super }}的服务器列表{% endblock %}
+
+{% block content %}
+
+<div class="row" id="app">
+
+  <table class="table">
+    <thead>
+      <tr>
+
+        <th>id</th>
+        <th>主机名</th>
+        <th>操作系统</th>
+        <th>点击获取详情</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in servers  %}
+      <tr class="active" >
+        <td>{{ item.id }}</td>
+        <td>{{ item.hostname }}</td>
+        <td>{{ item.os_name }}</td>
+        <td><a href="{% url 'cmdb:server_detail' item.id %}">详情</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+  <!-- {% verbatim %}
+<div class="col-sm-7">
+  <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+    <ul class="pagination">
+      <li class="paginate_button previous" id="example2_previous">
+        <a href="#" @click="getServerData(server.links.previous_url)">Previous</a></li>
+
+      <li class="paginate_button" v-for="i in server.links.page_links">
+        <a v-if="!i[3]" href="#" @click="getServerData(i[0])">{{ i[1] }}</a>
+        <a v-else href="#">...</a>
+      </li>
+
+      <li class="paginate_button next" id="example2_next">
+        <a href="#" @click="getServerData(server.links.next_url)">Next</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+{% endverbatim %} -->
+{% endblock %}
+{% block script %}
+<script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      server: '',
+    },
+    methods: {
+      getUrl() {
+        return this.server.links
+      },
+      getServerData(url) {
+        axios.get(
+          url,
+        ).then(
+          res => {
+            this.server = res.data
+          }).catch(err => {
+            console.log(err)
+          });
+      }
+    },
+    mounted() {
+      axios.get(
+        "http://127.0.0.1:8000/cmdb/server-list/",
+      ).then(
+        res => {
+          this.server = res.data
+        }).catch(err => {
+          alert(err)
+        });
+    },
+  });
+</script>
+{% endblock %}

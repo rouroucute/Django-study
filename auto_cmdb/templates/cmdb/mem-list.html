@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block h1 %} {{ block.super }} 的内存列表 {% endblock %}
+{% block content %}
+
+<div class="row" id="app">
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>内存容量</th>
+                <th>插槽</th>
+                <th>内存类型</th>
+                <th>速率</th>
+                <th>内存厂商</th>
+                <th>产品序列号</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in memorys%}
+                <td>{{ item.id }}</td>
+                <td>{{ item.capacity }}</td>
+                <td>{{ item.slot }}</td>
+                <td>{{ item.model }}</td>
+                <td>{{ item.speed}}</td>
+                <td>{{ item.manufacturer }}</td>
+                <td>{{ item.sn}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            memory: '',
+        },
+        methods: {
+            getUrl() {
+                return this.memory.links
+            },
+            getMemoryData(url) {
+                axios.get(
+                    url,
+                ).then(
+                    res => {
+                        this.memory = res.data
+                    }).catch(err => {
+                        console.log(err)
+                    });
+            }
+        },
+
+        mounted() {
+            axios.get(
+                "http://127.0.0.1:8000/cmdb/mem-list/",
+            ).then(
+                res => {
+                    this.memory = res.data
+                }).catch(err => {
+                    alert(err)
+                });
+        },
+    });
+</script>
+{% endblock  %}
+
+{% block script %}
+{% endblock %}

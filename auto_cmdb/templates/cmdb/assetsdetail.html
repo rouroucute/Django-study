@@ -1,0 +1,144 @@
+{%  extends  'base.html'  %}
+{%  load  staticfiles  %}
+
+{%  block  content  %}
+<!--  Content  Wrapper.  Contains  page  content  -->
+<div  class="content-wrapper">
+    <!--  Content  Header  (Page  header)  -->
+    <section  class="content-header">
+        <h1>
+            资产详情
+        </h1>
+
+    </section>
+
+    <!--  Main  content  -->
+    <section  class="content">
+
+        <div  class="row">
+            <div  class="col-md-2">
+
+                <!--  Profile  Image  -->
+                <div  class="box  box-primary">
+                    <div  class="box-body  box-profile">
+                        <img  class="profile-user-img  img-responsive  img-circle"  src="{%  static  '/static/images/ibm.jpg'  %}"
+                            alt="User  profile  picture">
+                        <h2  class="profile-username  text-center">{{  asset.host_name  }}</h2>
+
+
+
+                        <ul  class="list-group  list-group-unbordered">
+                            <li  class="list-group-item">
+                                <a  class="pull-right">{{  asset.get_device_type_id_display  }}</a>
+                                <b>资产类型</b>
+                            </li>
+                            <li  class="list-group-item">
+                                <b>状态  </b>  <span
+                                    class="  pull-right  label  label-success">{{  server.asset.get_device_status_id_display  }}</span>
+                            </li>
+                            <li  class="list-group-item">
+                                <b>IP  地址</b>  <a  class="pull-right">10.0.122.156</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--  /.col  -->
+            <div  class="col-md-9">
+                <div  class="nav-tabs-custom">
+                    <ul  class="nav  nav-tabs">
+                        <li  class="active"><a  href="#activity"  data-toggle="tab">服务器信息</a></li>
+                        <li><a  href="#disk"  data-toggle="tab">硬盘信息</a></li>
+                        <li><a  href="#memory"  data-toggle="tab">内存信息</a></li>
+                    </ul>
+                    <div  class="tab-content">
+                        <div  class="active  tab-pane"  id="activity">
+                            <!--  Post  -->
+                            <div  class="post">
+                                <ul  class="list-group  list-group-unbordered">
+                                    <li  class="list-group-item">
+                                        <b>操作系统</b>
+                                        <span  class="pull-right  label  label-danger">{{  server.os_name  }}</span>
+                                    </li>
+                                    <li  class="list-group-item">
+                                        <b>CPU  核心  </b>  <span  class="  pull-right  label  label-success">{{  server.physical_count  }}</span>
+                                    </li>
+                                    <li  class="list-group-item">
+                                        <b>所属机柜</b>  <span  class="pull-right  label  label-info">{{  asset.cabinet  }}</span>
+                                    </li>
+                                    <li  class="list-group-item">
+                                        <b>创建时间</b>  <span  class="pull-right  label  label-info">{{  asset.create_at  }}</span>
+                                    </li>
+                                    <li  class="list-group-item">
+                                        <b>更新时间</b>  <span  class="pull-right  label  label-info">{{  asset.latest_date  }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div  class="tab-pane"  id="disk">
+                                <ul  class="list-group  list-group-unbordered">
+                           <li class="list-group-item">
+                    <b>强制磁盘容量</b>
+                    <span class="pull-right label label-danger">{{ disk.coreced }}</span>
+                  </li>
+                  <li class="list-group-item">
+                    <b>接口类型 </b> <span class=" pull-right label label-success">{{ disk.pd }}</span>
+                  </li>
+                  <li class="list-group-item">
+                    <b>原始磁盘容量</b> <span class="pull-right label label-info">{{ disk.raw }}</span>
+                  </li>
+                  <li class="list-group-item">
+                    <b>插槽号</b> <span class="pull-right label label-info">{{ disk.slot }}</span>
+                  </li>
+                  <li class="list-group-item">
+                    <b>服务器</b> <span class="pull-right label label-info">{{ disk.server }}</span>
+                  </li>
+                
+                </ul>
+              </div>
+
+
+
+            <div class="tab-pane" id="memory">
+              {% for item in  memory %}
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>内存容量</b>
+                  <span class="pull-right label label-danger">{{ memory.capacity }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>插槽 </b> <span class=" pull-right label label-success">{{ memory.slot }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>内存类型</b> <span class="pull-right label label-info">{{ memory.model }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>速率</b> <span class="pull-right label label-info">{{ memory.speed }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>内存厂商</b> <span class="pull-right label label-info">{{ memory.manufacturer }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>产品序列号</b> <span class="pull-right label label-info">{{ memory.sn }}</span>
+                </li>
+                <li class="list-group-item">
+                  <b>更新时间</b> <span class="pull-right label label-info">{{ memory.latest_date }}</span>
+                </li>
+              </ul>
+              {% endfor %}
+            </div>
+            <!-- /.tab-pane -->
+          </div>
+          <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}

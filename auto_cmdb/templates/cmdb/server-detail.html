@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>服务器详情</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>主机名</th>
+          <th>内核</th>
+          <th>操作系统</th>
+          <th>物理 CPU 颗数</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="active">{{ server }}
+            <td>{{ server.id }}</td>
+            <td>{{ server.hostname }}</td>
+            <td>{{ server.kernel }}</td>
+            <td>{{ server.os_name }}</td>
+            <td>{{ server.physical_count }}</td>
+          </tr>
+        </tbody>
+    </table>
+    <div class="row">
+      <h1>内存表详情</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>内存容量</th>
+            <th>插槽</th>
+            <th>内存类型</th>
+            <th>速率</th>
+            <th>内存厂商</th>
+            <th>产品序列号</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for memory in server.memorys.all %}
+          <tr class="active">
+            <td>{{ memory.id }}</td>
+            <td>{{ memory.capacity }}</td>
+            <td>{{ memory.slot }}</td>
+            <td>{{ memory.model }}</td>
+            <td>{{ memory.speed}}</td>
+            <td>{{ memory.manufacturer }}</td>
+            <td>{{ memory.sn }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="row">
+        <h1>硬盘详情</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>插槽号</th>
+              <th>接口类型</th>
+              <th>原始磁盘大小</th>
+              <th>强制磁盘容量</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for disk in server.disks.all %}
+  
+            <tr class="active">
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ disk.id }}</td>
+              <td>{{ disk.slot}}</td>
+              <td>{{ disk.pd }}</td>
+              <td>{{ disk.raw }}</td>
+              <td>{{ disk.coreced}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
