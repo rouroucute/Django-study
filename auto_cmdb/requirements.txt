@@ -10,7 +10,7 @@ backports.csv==1.0.7
 bcrypt==3.1.7
 billiard==3.6.1.0
 black==19.3b0
-celery==4.3.0
+celery==5.2.2
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
